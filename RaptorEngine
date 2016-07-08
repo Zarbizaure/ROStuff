@@ -1,0 +1,126 @@
+PART
+{
+  RSSROConfig = True
+
+	MODEL
+	{
+		model = VenStockRevamp/Squad/Parts/Propulsion/OMS-L
+		scale = 2.532, 2.532, 2.532
+	}
+	
+	name = RaptorSL
+	module = Part
+	author = Ven
+	scale = 1
+	rescaleFactor = 1
+	
+	// --- editor parameters ---
+	TechRequired = veryHeavyRocketry
+	entryCost = 11500
+	cost = 1800
+	title = Raptor Atmospheric Engine
+	manufacturer = SpaceX
+	description = The Raptor methalox engine used on SpaceX's super heavy-lift vehicles.
+
+	// --- standard part parameters ---
+	skinInternalConductionMult = 4.0
+	emissiveConstant = 0.8 // engine nozzles are good at radiating.
+	dragModelType = default
+	maximum_drag = 0.2
+	minimum_drag = 0.2
+	angularDrag = 2
+	crashTolerance = 15
+	maxTemp = 1973.15
+	category = Engine
+	subcategory = 0
+	
+	//node parameters
+	node_attach = 0, 0, 0, 90, 0, 0,1
+	node_stack_top = 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0
+	node_stack_bottom = 0.0, -3.141341, 0.0, 0.0, 0.0, 0.0
+
+	// attachment rules: stack, srfAttach, allowStack, allowSrfAttach, allowCollision
+	attachRules = 1,1,1,0,1
+	
+	PLUME
+  {
+    name = Kerolox-Lower          //pre-fabbed plume you want
+    transformName = thrustTransform //which transform to attach the plume
+    localRotation = 0,0,0           //Optional - Any rotation needed
+    localPosition = 0,0,0           //Any offset needed
+    fixedScale = 1.5                  //Size adjustment to resize to engine
+    energy = 1                      //Adjust length of plume
+    speed = 2                       //Adjust speed to fit resize, generally close to 1:1 with scale. 
+  }
+
+	MODULE
+	{
+		name = ModuleEnginesRF
+		thrustVectorTransformName = thrustTransform
+		exhaustDamage = True
+		ignitionThreshold = 0.1
+		minThrust = 1300
+		maxThrust = 2600.9
+		heatProduction = 100
+		PROPELLANT
+		{
+			name = LqdMethane
+			ratio = 0.4482
+			DrawGauge = True
+		}
+		PROPELLANT
+		{
+			name = LqdOxygen
+			ratio = 0.5518
+		}
+	}
+	MODULE
+	{
+		name = ModuleEngineConfigs
+		type = ModuleEngines
+		configuration = RaptorAtmo
+		origMass = 0.05
+		modded = false
+		CONFIG
+		{
+			name = RaptorAtmo
+			massMult = 2.2
+			minThrust = 1300
+	  	maxThrust = 2600.9
+	  	heatProduction = 100
+	  	PROPELLANT
+	  	{
+	  		name = LqdMethane
+	  		ratio = 0.4482
+  			DrawGauge = True
+  		}
+  		PROPELLANT
+   		{
+  			name = LqdOxygen
+  			ratio = 0.5518
+  		}
+  		atmosphereCurve
+  		{
+	  	  key = 0 363
+	  	  key = 1 321
+	    }
+		  ullage = True
+	  	pressureFed = False
+		  ignitions = 5
+		  powerEffectName = Kerolox-Lower
+		  IGNITOR_RESOURCE
+		  {
+		  	name = TEATEB
+		  	amount = 2
+		  }
+		}
+	}
+	MODULE
+	{
+		name = ModuleGimbal
+		gimbalTransformName = Nozzle
+		useGimbalResponseSpeed = true
+		gimbalResponseSpeed = 16
+		gimbalRange = 4
+	}
+}
